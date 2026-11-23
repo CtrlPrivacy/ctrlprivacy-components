@@ -19,7 +19,7 @@ Requires JDK 25. The Gradle wrapper (`./gradlew`) is included, so don't install 
 
 The shared Java components of Ctrl Privacy's Spring Boot APIs, modeled on ReMo's
 `remo-components` (`~/projects/ai.remo.app/module/components`). Every module is
-`org.ctrlprivacy:ctrlprivacy-<name>`, every plugin id is `ctrlprivacy.<name>`, and everything is
+`org.ctrlprivacy:ctrlprivacy-<name>`, every plugin id is `org.ctrlprivacy.<name>`, and everything is
 released together at the version in `gradle.properties`, which CI sets from the release tag.
 `README.md` explains how services consume it.
 
