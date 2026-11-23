@@ -95,7 +95,7 @@ dependencyResolutionManagement {
 
 // core/build.gradle.kts
 plugins {
-    id("ctrlprivacy.java") version "<version>"
+    id("org.ctrlprivacy.java") version "<version>"
 }
 
 dependencies {
@@ -104,7 +104,7 @@ dependencies {
 
 // web/build.gradle.kts
 plugins {
-    id("ctrlprivacy.service") version "<version>"
+    id("org.ctrlprivacy.service") version "<version>"
 }
 
 dependencies {
@@ -134,9 +134,9 @@ env:
 ### How an API is laid out
 
 Two Gradle modules. `core` holds the business logic (entities, repositories, services, mappers,
-policies and rules) and applies `ctrlprivacy.java`. `web` holds what faces the client
+policies and rules) and applies `org.ctrlprivacy.java`. `web` holds what faces the client
 (controllers, security and Swagger config, the application class), depends on `core`, and applies
-`ctrlprivacy.service`, which builds `web/build/libs/web.jar` for the image. `core` never depends on
+`org.ctrlprivacy.service`, which builds `web/build/libs/web.jar` for the image. `core` never depends on
 `web`.
 
 ## Contributing
@@ -152,7 +152,7 @@ policies and rules) and applies `ctrlprivacy.java`. `web` holds what faces the c
 
 ### Adding a module
 
-1. Create `ctrlprivacy-<name>/build.gradle.kts` applying `ctrlprivacy.java-library`, with a
+1. Create `ctrlprivacy-<name>/build.gradle.kts` applying `org.ctrlprivacy.java-library`, with a
    `description`.
 2. `include("ctrlprivacy-<name>")` in `settings.gradle.kts`.
 3. Add a constraint for it in `ctrlprivacy-dependencies/build.gradle.kts`.

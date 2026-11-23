@@ -1,10 +1,10 @@
-// The convention every ctrlprivacy-components library applies: the ctrlprivacy.java base, published
+// The convention every ctrlprivacy-components library applies: the org.ctrlprivacy.java base, published
 // to GitHub Packages with sources and Javadoc.
 
 plugins {
     `java-library`
-    id("ctrlprivacy.java")
-    id("ctrlprivacy.publishing")
+    id("org.ctrlprivacy.java")
+    id("org.ctrlprivacy.publishing")
 }
 
 java {

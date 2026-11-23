@@ -1,5 +1,5 @@
-// The base every Ctrl Privacy Java project applies, through ctrlprivacy.java-library or
-// ctrlprivacy.service: the Java 25 toolchain, ctrlprivacy-dependencies for every version, Error Prone
+// The base every Ctrl Privacy Java project applies, through org.ctrlprivacy.java-library or
+// org.ctrlprivacy.service: the Java 25 toolchain, ctrlprivacy-dependencies for every version, Error Prone
 // with NullAway, Lombok and MapStruct, Palantir formatting, Checkstyle, PMD and SpotBugs with
 // FindSecBugs, the test stack (JUnit, AssertJ), and the integrationTest task.
 
@@ -17,7 +17,7 @@ plugins {
     id("com.github.spotbugs")
     id("com.diffplug.spotless")
     id("net.ltgt.errorprone")
-    id("ctrlprivacy.readme")
+    id("org.ctrlprivacy.readme")
 }
 
 java {

@@ -46,7 +46,7 @@ builds with the same toolchain, quality gates and publishing. It is a separate i
 | BUILD-FR-002 | Any compiler warning, NullAway error, format, Checkstyle, PMD or SpotBugs violation must fail the build. | Engineering | Not yet verified |
 | BUILD-FR-003 | An unmapped MapStruct target must fail compilation. | Engineering | Not yet verified |
 | BUILD-FR-004 | Locale-sensitive calls (`toLowerCase()` without a locale, …) must be compile errors. | Engineering | Not yet verified |
-| BUILD-FR-005 | `ctrlprivacy.service` must build one executable jar named after the module, with `build-info` for `/actuator/info`. | Engineering | Not yet verified |
+| BUILD-FR-005 | `org.ctrlprivacy.service` must build one executable jar named after the module, with `build-info` for `/actuator/info`. | Engineering | Not yet verified |
 | BUILD-FR-006 | `test` must never run a test tagged `integration`, and `integrationTest` must run only those. | Engineering | Not yet verified |
 
 ### Non-functional
@@ -62,8 +62,8 @@ is the current check.
 
 Every Ctrl Privacy Java repository relies on these. Changing them is a breaking change.
 
-- Plugin IDs: `ctrlprivacy.java`, `ctrlprivacy.java-library`, `ctrlprivacy.service`,
-  `ctrlprivacy.publishing`, `ctrlprivacy.readme`.
+- Plugin IDs: `org.ctrlprivacy.java`, `org.ctrlprivacy.java-library`, `org.ctrlprivacy.service`,
+  `org.ctrlprivacy.publishing`, `org.ctrlprivacy.readme`.
 - The `checkReadme` task and its place in `check`.
 - The `integrationTest` task and the `integration` tag.
 - The rule sets in `src/main/resources/ctrlprivacy/`. Tightening a rule is breaking, because it can
@@ -85,12 +85,12 @@ pluginManagement {
 
 // web/build.gradle.kts
 plugins {
-    id("ctrlprivacy.service") version "<version>"
+    id("org.ctrlprivacy.service") version "<version>"
 }
 
 // core/build.gradle.kts
 plugins {
-    id("ctrlprivacy.java") version "<version>"
+    id("org.ctrlprivacy.java") version "<version>"
 }
 ```
 
@@ -103,11 +103,11 @@ None beyond the plugin you apply. Publishing reads the `GitHubPackagesUsername` 
 
 | Plugin | For | Adds |
 |---|---|---|
-| `ctrlprivacy.java` | the base of the others, and a service's non-application modules (`core`) | Java 25 toolchain; versions only from `ctrlprivacy-dependencies`; Error Prone with NullAway (JSpecify mode, `-Werror`); Lombok and MapStruct; Palantir formatting (Spotless); Checkstyle; PMD; SpotBugs with FindSecBugs; JUnit and AssertJ; `integrationTest`; the README check |
-| `ctrlprivacy.java-library` | a shared component | `ctrlprivacy.java`, `java-library`, sources and Javadoc jars, publishing |
-| `ctrlprivacy.service` | a service's application module (`web`) | `ctrlprivacy.java` and the Spring Boot plugin, built into one executable jar, `<module>.jar`, with `build-info` |
-| `ctrlprivacy.publishing` | publishing | Maven publication to GitHub Packages |
-| `ctrlprivacy.readme` | documentation | `checkReadme`, part of `check`: a component's own README, or a service's root README |
+| `org.ctrlprivacy.java` | the base of the others, and a service's non-application modules (`core`) | Java 25 toolchain; versions only from `ctrlprivacy-dependencies`; Error Prone with NullAway (JSpecify mode, `-Werror`); Lombok and MapStruct; Palantir formatting (Spotless); Checkstyle; PMD; SpotBugs with FindSecBugs; JUnit and AssertJ; `integrationTest`; the README check |
+| `org.ctrlprivacy.java-library` | a shared component | `org.ctrlprivacy.java`, `java-library`, sources and Javadoc jars, publishing |
+| `org.ctrlprivacy.service` | a service's application module (`web`) | `org.ctrlprivacy.java` and the Spring Boot plugin, built into one executable jar, `<module>.jar`, with `build-info` |
+| `org.ctrlprivacy.publishing` | publishing | Maven publication to GitHub Packages |
+| `org.ctrlprivacy.readme` | documentation | `checkReadme`, part of `check`: a component's own README, or a service's root README |
 
 ### Quality gates
 
@@ -129,7 +129,7 @@ fails when a module has no tests of its kind.
 
 ### Versions
 
-`ctrlprivacy.java` reads every version from `ctrlprivacy-dependencies`: the local project inside
+`org.ctrlprivacy.java` reads every version from `ctrlprivacy-dependencies`: the local project inside
 ctrlprivacy-components, and the release with the same version as these plugins anywhere else.
 Declare dependencies without versions.
 

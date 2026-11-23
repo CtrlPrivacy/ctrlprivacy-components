@@ -4,8 +4,8 @@
 
 plugins {
     `java-platform`
-    id("ctrlprivacy.publishing")
-    id("ctrlprivacy.readme")
+    id("org.ctrlprivacy.publishing")
+    id("org.ctrlprivacy.readme")
 }
 
 description = "Ctrl Privacy dependency management: the release-train BOM"
@@ -25,7 +25,7 @@ dependencies {
         api(project(":ctrlprivacy-security"))
         api(project(":ctrlprivacy-web"))
 
-        // Build tooling, used by the ctrlprivacy.java conventions.
+        // Build tooling, used by the org.ctrlprivacy.java conventions.
         api(libs.error.prone.annotations)
         api(libs.error.prone.core)
         api(libs.nullaway)

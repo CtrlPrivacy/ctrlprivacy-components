@@ -1,5 +1,5 @@
 plugins {
-    id("ctrlprivacy.java-library")
+    id("org.ctrlprivacy.java-library")
     `java-test-fixtures`
 }
 
