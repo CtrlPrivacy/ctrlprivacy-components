@@ -1,0 +1,144 @@
+name: CI/CD Workflow
+
+# Tests every module on pull requests and main, and analyzes pull requests. Only releases publish
+# to GitHub Packages: a release tagged v1.2.3 publishes 1.2.3, and the tag sets the version, never a
+# hand edit. Release candidates (v1.2.0-rc.1) come from main; snapshots (v1.2.0-SNAPSHOT) from a
+# release on a PR branch. A manual run with republish publishes the version given.
+
+on:
+  workflow_dispatch:
+    inputs:
+      republish:
+        description: "Publish the version below without a release"
+        required: false
+        type: boolean
+      version:
+        description: "Version to publish (1.0.0)"
+        required: false
+        type: string
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [created]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  # The build is split in two so each half gets its own runner's cores: tests in one, static
+  # analysis and javadoc in the other.
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # test leaves out the integration tests (real Mongo, Kafka); run integrationTest locally.
+      - name: Test
+        run: ./gradlew test :ctrlprivacy-build:build
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: "**/build/reports/tests/"
+          retention-days: 7
+
+  # Pull requests only: main and releases only ever hold code a pull request already analyzed.
+  analysis:
+    name: Analysis
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # Formatting, Error Prone and NullAway (while compiling), Checkstyle, PMD, SpotBugs and javadoc.
+      - name: Analyze
+        run: ./gradlew check javadoc -x test
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: analysis-reports
+          path: "**/build/reports/"
+          retention-days: 7
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: [test, analysis]
+    # always() so a skipped analysis job doesn't skip publishing; a failed one still does.
+    if: >-
+      always()
+      && needs.test.result == 'success'
+      && contains(fromJSON('["success", "skipped"]'), needs.analysis.result)
+      && ((github.event_name == 'release' && github.event.action == 'created')
+      || (github.event_name == 'workflow_dispatch' && inputs.republish))
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      # ctrlprivacy-build reads gradle.properties directly, so the version is set there for the whole train.
+      - name: Set version
+        env:
+          EVENT: ${{ github.event_name }}
+          TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [[ "$EVENT" == "release" ]]; then
+            VERSION="${TAG#v}"
+          else
+            VERSION="$INPUT_VERSION"
+          fi
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Not a version: '$VERSION'"
+            exit 1
+          fi
+          sed -i "s/^version=.*/version=$VERSION/" gradle.properties
+          echo "Publishing $VERSION"
+
+      - name: Publish
+        run: ./gradlew publish :ctrlprivacy-build:publish
+        env:
+          ORG_GRADLE_PROJECT_GitHubPackagesUsername: ${{ github.actor }}
+          ORG_GRADLE_PROJECT_GitHubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SpotBugs patterns that don't fit Ctrl Privacy's design. Each is excluded for a stated reason;
+  anything else SpotBugs or FindSecBugs reports fails the build.
+-->
+<FindBugsFilter>
+    <!--
+      Lombok value classes hand out what they hold, and Spring beans keep the collaborators
+      they're constructed with; collections in value types are immutable copies.
+    -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    </Match>
+    <!-- Validating in constructors makes invalid values impossible to create. -->
+    <Match>
+        <Bug pattern="CT_CONSTRUCTOR_THROW"/>
+    </Match>
+</FindBugsFilter>

@@ -1,0 +1,53 @@
+# Every third-party version on the release train. ctrlprivacy-dependencies publishes these as the
+# BOM, and ctrlprivacy-build reads the Spring Boot and FindSecBugs versions from here. Spring Boot's
+# own BOM manages everything it covers (Spring, Mongo, Kafka, Jackson, Lombok, Caffeine,
+# Testcontainers, JUnit, AssertJ…), so only what it doesn't is listed.
+
+[versions]
+spring-boot = "4.2.0"
+# The release train built for this Spring Boot: 2026.0 is Boot 4.2.
+spring-cloud = "2026.0.0"
+# S3-compatible object storage (Cloudflare R2) for resource files.
+aws-sdk = "2.59.7"
+error-prone = "2.51.0"
+nullaway = "0.14.3"
+mapstruct = "1.6.3"
+lombok-mapstruct-binding = "0.2.0"
+checkstyle = "14.3.0"
+pmd = "7.28.0"
+spotbugs = "4.10.5"
+findsecbugs = "1.14.0"
+springdoc = "3.2.1"
+bucket4j = "8.23.0"
+geoip2 = "5.3.0"
+commons-compress = "1.28.0"
+avro = "1.12.2"
+# kafka-avro-serializer is only published to https://packages.confluent.io/maven/.
+confluent = "8.4.1"
+jjwt = "0.13.0"
+
+[libraries]
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud" }
+aws-sdk-bom = { module = "software.amazon.awssdk:bom", version.ref = "aws-sdk" }
+error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone" }
+error-prone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "error-prone" }
+nullaway = { module = "com.uber.nullaway:nullaway", version.ref = "nullaway" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
+checkstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
+pmd-java = { module = "net.sourceforge.pmd:pmd-java", version.ref = "pmd" }
+pmd-ant = { module = "net.sourceforge.pmd:pmd-ant", version.ref = "pmd" }
+spotbugs = { module = "com.github.spotbugs:spotbugs", version.ref = "spotbugs" }
+spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs" }
+findsecbugs = { module = "com.h3xstream.findsecbugs:findsecbugs-plugin", version.ref = "findsecbugs" }
+springdoc-openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+bucket4j = { module = "com.bucket4j:bucket4j_jdk17-core", version.ref = "bucket4j" }
+geoip2 = { module = "com.maxmind.geoip2:geoip2", version.ref = "geoip2" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commons-compress" }
+avro = { module = "org.apache.avro:avro", version.ref = "avro" }
+kafka-avro-serializer = { module = "io.confluent:kafka-avro-serializer", version.ref = "confluent" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }

@@ -1,0 +1,3 @@
+org.ctrlprivacy.security.autoconfigure.SecurityAutoConfiguration
+org.ctrlprivacy.security.autoconfigure.SecurityFilterChainAutoConfiguration
+org.ctrlprivacy.security.autoconfigure.MethodSecurityAutoConfiguration
