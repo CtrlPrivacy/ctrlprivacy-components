@@ -1,9 +1,9 @@
 // The convention every Ctrl Privacy API applies to the module that builds the application (web):
-// the ctrlprivacy.java base, built into one executable Spring Boot jar. Services ship as images, not
+// the org.ctrlprivacy.java base, built into one executable Spring Boot jar. Services ship as images, not
 // Maven artifacts, so nothing is published from here.
 
 plugins {
-    id("ctrlprivacy.java")
+    id("org.ctrlprivacy.java")
     id("org.springframework.boot")
 }
 

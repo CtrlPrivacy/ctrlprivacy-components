@@ -1,3 +1,6 @@
+# Weekly version bumps, grouped so related updates arrive as one PR. Groups take minor and patch
+# updates only: a major version gets a PR of its own, to review on its own. A dependency joins the
+# first group whose patterns match it.
 version: 2
 updates:
   - package-ecosystem: gradle
@@ -5,11 +8,37 @@ updates:
     schedule:
       interval: weekly
     groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      # Spring Boot, Spring Cloud and springdoc move in step, and the BOM pins them together.
       spring:
         patterns:
           - "org.springframework*"
+          - "io.spring*"
+          - "org.springdoc*"
+        update-types: [minor, patch]
+      # The quality gates ctrlprivacy-build applies. A bump can fail builds with new findings, so
+      # they come together, to fix in one go.
+      build-tooling:
+        patterns:
+          - "com.diffplug.spotless*"
+          - "net.ltgt.gradle*"
+          - "com.google.errorprone*"
+          - "com.uber.nullaway*"
+          - "com.puppycrawl.tools*"
+          - "net.sourceforge.pmd*"
+          - "com.github.spotbugs*"
+          - "com.h3xstream.findsecbugs*"
+        update-types: [minor, patch]
+      libraries:
+        patterns: ["*"]
+        update-types: [minor, patch]
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

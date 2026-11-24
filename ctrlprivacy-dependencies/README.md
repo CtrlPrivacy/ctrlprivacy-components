@@ -54,7 +54,7 @@ Every service relies on it. A major upgrade of an imported BOM is a breaking cha
 
 ## Installation
 
-The `ctrlprivacy.java` convention plugin applies it; nothing else is needed. Without the plugin:
+The `org.ctrlprivacy.java` convention plugin applies it; nothing else is needed. Without the plugin:
 
 ```kotlin
 dependencies {

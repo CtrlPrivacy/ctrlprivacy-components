@@ -11,7 +11,7 @@ group = train.getProperty("group")
 version = train.getProperty("version")
 description = "Ctrl Privacy's Gradle convention plugins"
 
-// The same repository as ctrlprivacy.publishing, which can't be applied to the build that defines it.
+// The same repository as org.ctrlprivacy.publishing, which can't be applied to the build that defines it.
 publishing {
     repositories {
         maven {

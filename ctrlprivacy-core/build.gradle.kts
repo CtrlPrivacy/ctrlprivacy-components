@@ -1,5 +1,5 @@
 plugins {
-    id("ctrlprivacy.java-library")
+    id("org.ctrlprivacy.java-library")
 }
 
 description = "Ctrl Privacy core: the base entity every document extends (identity and audit trail), the base response and auditing"

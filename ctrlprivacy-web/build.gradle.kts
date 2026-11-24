@@ -1,5 +1,5 @@
 plugins {
-    id("ctrlprivacy.java-library")
+    id("org.ctrlprivacy.java-library")
 }
 
 description = "Ctrl Privacy web: problem detail error answers, the ApiResponse envelope and client IP resolution behind trusted proxies"
